@@ -10,11 +10,11 @@ public class Board {
 
     private void fillBoard(){
         for(int i=0;i<Constants.BOARD_SIZE;i++){
-            pieces[i][0] = new Piece(i,Color.WHITE,new Vector2d(i,0));
-            pieces[i][1] = new Piece(i*2,Color.WHITE,new Vector2d(i,1));
+            pieces[i][0] = new Piece(i, Player.WHITE,new Vector2d(i,0));
+            pieces[i][1] = new Piece(i*2, Player.WHITE,new Vector2d(i,1));
 
-            pieces[i][Constants.BOARD_SIZE-1] = new Piece(i,Color.BLACK,new Vector2d(i,Constants.BOARD_SIZE-1));
-            pieces[i][Constants.BOARD_SIZE-2] = new Piece(i*2,Color.BLACK,new Vector2d(i,Constants.BOARD_SIZE-2));
+            pieces[i][Constants.BOARD_SIZE-1] = new Piece(i, Player.BLACK,new Vector2d(i,Constants.BOARD_SIZE-1));
+            pieces[i][Constants.BOARD_SIZE-2] = new Piece(i*2, Player.BLACK,new Vector2d(i,Constants.BOARD_SIZE-2));
         }
     }
 

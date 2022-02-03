@@ -1,6 +1,6 @@
 package bowels;
 
-public enum Color {
+public enum Player {
     WHITE,
     BLACK
 }

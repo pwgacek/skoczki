@@ -2,12 +2,12 @@ package bowels;
 
 public class Piece {
     private final int id;
-    private final Color color;
+    private final Player player;
     private final Vector2d position;
 
-    public Piece(int id, Color color, Vector2d position) {
+    public Piece(int id, Player player, Vector2d position) {
         this.id = id;
-        this.color = color;
+        this.player = player;
         this.position = position;
     }
 
@@ -15,8 +15,8 @@ public class Piece {
         return id;
     }
 
-    public Color getColor() {
-        return color;
+    public Player getColor() {
+        return player;
     }
 
     public Vector2d getPosition() {
@@ -24,7 +24,7 @@ public class Piece {
     }
 
     public String getImgPath(){
-        return this.getColor() == Color.WHITE ? "src/main/resources/white.png" : "src/main/resources/black.png";
+        return this.getColor() == Player.WHITE ? "src/main/resources/white.png" : "src/main/resources/black.png";
     }
 
 }

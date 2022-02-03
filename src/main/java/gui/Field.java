@@ -1,5 +1,7 @@
 package gui;
 
+import bowels.SequenceCreator;
+import bowels.Vector2d;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -14,14 +16,44 @@ import static bowels.Constants.CELL_SIZE;
 
 
 public class Field extends VBox {
-    ImageViewSelector imageViewSelector;
-    ImageView imageView;
-    Field(int num) {
+    private final ImageViewSelector imageViewSelector;
+    private ImageView imageView;
+    public boolean selected;
+    private final Vector2d position;
+    Field(Vector2d position,SequenceCreator sequenceCreator) {
+        selected = false;
         imageViewSelector = new ImageViewSelector();
+        this.position = position;
         setPrefSize(CELL_SIZE,CELL_SIZE);
 
-        if (num % 2 == 1) setBackground(new Background(new BackgroundFill(Color.ROSYBROWN, CornerRadii.EMPTY, Insets.EMPTY)));
-        else setBackground(new Background(new BackgroundFill(Color.SADDLEBROWN, CornerRadii.EMPTY, Insets.EMPTY)));
+        setBackground(new Background(new BackgroundFill(getBackgroundColor(position.x+position.y), CornerRadii.EMPTY, Insets.EMPTY)));
+
+
+        this.setOnMouseClicked((event)->{
+            if(imageView != null){
+                if(selected){
+                    sequenceCreator.restartSequence();
+                }
+                else{
+                    sequenceCreator.restartSequence();
+                    sequenceCreator.add(position);
+
+                }
+            }
+            else{
+                if(!sequenceCreator.isEmpty()){
+                    if(!selected){
+                        sequenceCreator.add(position);
+                    }
+                    else if(sequenceCreator.getLast().equals(position)){
+                        sequenceCreator.remove(position);
+                    }
+
+
+                }
+            }
+            setBackGroundColor();
+        });
     }
 
     public void setImageView(String path){
@@ -37,6 +69,18 @@ public class Field extends VBox {
         this.imageView = null;
         getChildren().clear();
     }
+
+    private Color getBackgroundColor(int num){
+        if(selected) return Color.MAGENTA;
+        if(num % 2 == 1)return Color.ROSYBROWN;
+        return Color.SADDLEBROWN;
+    }
+
+    public void setBackGroundColor(){
+        setBackground(new Background(new BackgroundFill(getBackgroundColor(position.x+position.y), CornerRadii.EMPTY, Insets.EMPTY)));
+
+    }
+
 
 
 
