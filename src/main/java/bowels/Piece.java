@@ -15,7 +15,7 @@ public class Piece {
         return id;
     }
 
-    public Player getColor() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -24,7 +24,7 @@ public class Piece {
     }
 
     public String getImgPath(){
-        return this.getColor() == Player.WHITE ? "src/main/resources/white.png" : "src/main/resources/black.png";
+        return this.getPlayer() == Player.WHITE ? "src/main/resources/white.png" : "src/main/resources/black.png";
     }
 
 }

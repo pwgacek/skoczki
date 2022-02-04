@@ -1,5 +1,7 @@
 package gui;
 
+import bowels.GameEngine;
+import bowels.Player;
 import bowels.SequenceCreator;
 import bowels.Vector2d;
 import javafx.geometry.Insets;
@@ -20,17 +22,20 @@ public class Field extends VBox {
     private ImageView imageView;
     public boolean selected;
     private final Vector2d position;
-    Field(Vector2d position,SequenceCreator sequenceCreator) {
+    private final SequenceCreator sequenceCreator;
+    private Player player;
+    Field(Vector2d position, GameEngine engine) {
         selected = false;
         imageViewSelector = new ImageViewSelector();
         this.position = position;
+        this.sequenceCreator = engine.getSequenceCreator();
         setPrefSize(CELL_SIZE,CELL_SIZE);
 
         setBackground(new Background(new BackgroundFill(getBackgroundColor(position.x+position.y), CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         this.setOnMouseClicked((event)->{
-            if(imageView != null){
+            if(player != null && engine.getCurrentPlayer() == player){
                 if(selected){
                     sequenceCreator.restartSequence();
                 }
@@ -40,7 +45,7 @@ public class Field extends VBox {
 
                 }
             }
-            else{
+            else if(player == null){
                 if(!sequenceCreator.isEmpty()){
                     if(!selected){
                         sequenceCreator.add(position);
@@ -79,6 +84,13 @@ public class Field extends VBox {
     public void setBackGroundColor(){
         setBackground(new Background(new BackgroundFill(getBackgroundColor(position.x+position.y), CornerRadii.EMPTY, Insets.EMPTY)));
 
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public void removePlayer(){
+        this.player = null;
     }
 
 

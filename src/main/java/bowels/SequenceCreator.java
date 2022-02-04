@@ -45,7 +45,7 @@ public class SequenceCreator {
         return sequence.size() == 0;
     }
 
-
-
-
+    public ArrayList<Vector2d> getSequence() {
+        return sequence;
+    }
 }
