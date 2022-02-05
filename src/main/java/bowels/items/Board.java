@@ -25,6 +25,7 @@ public class Board {
             pieces[i][Constants.BOARD_SIZE-1] = new Piece(Player.BLACK);
             pieces[i][Constants.BOARD_SIZE-2] = new Piece(Player.BLACK);
         }
+
     }
 
     public Piece[][] getPieces() {
