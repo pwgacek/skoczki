@@ -1,16 +1,15 @@
-package gui;
+package gui.main_grid_pane_elements;
 
 import bowels.GameEngine;
-import bowels.Player;
+import bowels.items.Player;
 import bowels.SequenceCreator;
-import bowels.Vector2d;
+import bowels.items.Vector2d;
+import gui.mechanics.ImageViewSelector;
+import gui.pop_up_windows.SequenceError;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 
@@ -24,7 +23,7 @@ public class Field extends VBox {
     private final Vector2d position;
     private final SequenceCreator sequenceCreator;
     private Player player;
-    Field(Vector2d position, GameEngine engine) {
+    public Field(Vector2d position, GameEngine engine) {
         selected = false;
         imageViewSelector = new ImageViewSelector();
         this.position = position;
@@ -48,7 +47,8 @@ public class Field extends VBox {
             else if(player == null){
                 if(!sequenceCreator.isEmpty()){
                     if(!selected){
-                        sequenceCreator.add(position);
+                        if(sequenceCreator.canAdd(position)) sequenceCreator.add(position);
+                        else new SequenceError();
                     }
                     else if(sequenceCreator.getLast().equals(position)){
                         sequenceCreator.remove(position);
@@ -58,6 +58,7 @@ public class Field extends VBox {
                 }
             }
             setBackGroundColor();
+            setBorder();
         });
     }
 
@@ -76,15 +77,19 @@ public class Field extends VBox {
     }
 
     private Color getBackgroundColor(int num){
-        if(selected) return Color.MAGENTA;
-        if(num % 2 == 1)return Color.ROSYBROWN;
-        return Color.SADDLEBROWN;
+        if(num % 2 == 1)return Color.rgb(102,68,58);
+        return Color.rgb(245,230,191);
     }
 
     public void setBackGroundColor(){
         setBackground(new Background(new BackgroundFill(getBackgroundColor(position.x+position.y), CornerRadii.EMPTY, Insets.EMPTY)));
 
     }
+    public void setBorder(){
+        if(selected) setBorder(new Border(new BorderStroke(Color.MAGENTA, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        else setBorder(null);
+    }
+
 
     public void setPlayer(Player player) {
         this.player = player;

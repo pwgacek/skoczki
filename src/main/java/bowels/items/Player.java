@@ -1,4 +1,4 @@
-package bowels;
+package bowels.items;
 
 public enum Player {
     WHITE,

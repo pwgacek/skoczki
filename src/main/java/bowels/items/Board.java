@@ -1,4 +1,6 @@
-package bowels;
+package bowels.items;
+
+import bowels.Constants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,11 +19,11 @@ public class Board {
 
     private void fillBoard(){
         for(int i=0;i<Constants.BOARD_SIZE;i++){
-            pieces[i][0] = new Piece(i, Player.WHITE,new Vector2d(i,0));
-            pieces[i][1] = new Piece(i*2, Player.WHITE,new Vector2d(i,1));
+            pieces[i][0] = new Piece(Player.WHITE);
+            pieces[i][1] = new Piece(Player.WHITE);
 
-            pieces[i][Constants.BOARD_SIZE-1] = new Piece(i, Player.BLACK,new Vector2d(i,Constants.BOARD_SIZE-1));
-            pieces[i][Constants.BOARD_SIZE-2] = new Piece(i*2, Player.BLACK,new Vector2d(i,Constants.BOARD_SIZE-2));
+            pieces[i][Constants.BOARD_SIZE-1] = new Piece(Player.BLACK);
+            pieces[i][Constants.BOARD_SIZE-2] = new Piece(Player.BLACK);
         }
     }
 
@@ -30,15 +32,11 @@ public class Board {
     }
 
     public boolean canJump(Vector2d start,Vector2d end){
-        if(jumps.contains(end.subtract(start)) && pieces[end.x][end.y] == null && pieces[start.x + (end.subtract(start).x)/2][start.y +(end.subtract(start).y)/2] !=null){
-            return true;
-        }
-        return false;
+        return jumps.contains(end.subtract(start)) && pieces[end.x][end.y] == null && pieces[start.x + (end.subtract(start).x) / 2][start.y + (end.subtract(start).y) / 2] != null;
     }
 
     public boolean canMove(Vector2d start,Vector2d end){
-        if(pieces[end.x][end.y] == null && moves.contains(end.subtract(start))) return true;
-        return false;
+        return pieces[end.x][end.y] == null && moves.contains(end.subtract(start));
     }
 
     public boolean won(Player player){
@@ -58,14 +56,12 @@ public class Board {
 
     }
 
-    public boolean sequenceIsCorrect(ArrayList<Vector2d> sequence){
-        if(sequence.size() == 0 || sequence.size() == 1) return false;
-        if(sequence.size() == 2 && canMove(sequence.get(0),sequence.get(1))) return true;
-        for(int i =0;i<sequence.size()-1;i++){
-            if(!canJump(sequence.get(i),sequence.get(i+1))) return false;
-        }
-        return true;
+
+    public void performMove(Vector2d start,Vector2d end){
+        pieces[end.x][end.y] = pieces[start.x][start.y];
+        pieces[start.x][start.y] = null;
     }
+
 
 
 
