@@ -32,7 +32,8 @@ public class MainGridPane extends GridPane {
 
     private void initialize() {
         engine = new GameEngine();
-        BoardVisualizer boardVisualizer = new BoardVisualizer(engine.getBoard().getPieces(), engine);
+        BoardVisualizer boardVisualizer = new BoardVisualizer(engine);
+        boardVisualizer.renderView(engine.getBoard());
         PerformSequenceButton psBtn = new PerformSequenceButton();
         PlayerInfoLabel playerInfoLabel = new PlayerInfoLabel();
         engine.setPlayerInfoLabel(playerInfoLabel);

@@ -3,18 +3,16 @@ package gui.mechanics;
 import bowels.items.Vector2d;
 import gui.main_grid_pane_elements.Field;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
-public class VisualSequenceCreator {
+public class SequenceVizualizer {
     private final Field[][] fields;
-    public VisualSequenceCreator(Field[][] fields){
+    public SequenceVizualizer(Field[][] fields){
         this.fields = fields;
     }
 
-    public void restartSequence(ArrayList<Vector2d> sequence){
-        sequence.forEach(p ->fields[p.x][p.y].selected = false);
-        sequence.forEach(p ->fields[p.x][p.y].setBackGroundColor());
-        sequence.forEach(p ->fields[p.x][p.y].setBorder());
+    public void restartSequence(Stack<Vector2d> sequence){
+        sequence.forEach(p ->fields[p.x][p.y].restart());
     }
 
     public  void add(Vector2d position){

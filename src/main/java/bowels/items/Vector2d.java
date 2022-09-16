@@ -11,11 +11,24 @@ public class Vector2d {
         this.x = x;
         this.y = y;
     }
+    public Vector2d(int[] pos){
+        this.x = pos[0];
+        this.y = pos[1];
+    }
+    public Vector2d copy(){
+        return new Vector2d(x,y);
+    }
+
 
 
     public Vector2d subtract(Vector2d other){
         return new Vector2d(this.x - other.x, this.y - other.y);
     }
+    public Vector2d add(Vector2d other){
+        return new Vector2d(this.x + other.x, this.y + other.y);
+    }
+    public Vector2d divideByTwo(){return new Vector2d(this.x / 2,this.y /2);}
+
 
     @Override
     public boolean equals(Object o) {

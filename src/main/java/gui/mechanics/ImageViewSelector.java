@@ -9,17 +9,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImageViewSelector {
-    private final Map<String, ImageView> imageViewMap;
+    private final Map<String, Image> imageMap;
+    private static ImageViewSelector instance;
 
-    public ImageViewSelector(){
-        imageViewMap = new HashMap<>();
+    public static ImageViewSelector getInstance(){
+        if(instance == null){
+            instance = new ImageViewSelector();
+        }
+        return instance;
+    }
+
+    private ImageViewSelector(){
+        imageMap = new HashMap<>();
         String[] paths = new String[]{"src/main/resources/white.png","src/main/resources/black.png"};
 
         for (String path : paths) {
             try {
                 Image image = new Image(new FileInputStream(path));
-                ImageView imageView = new ImageView(image);
-                imageViewMap.put(path, imageView);
+                imageMap.put(path, image);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -28,7 +35,7 @@ public class ImageViewSelector {
     }
 
     public ImageView getImageView(String path){
-        return imageViewMap.get(path);
+        return new ImageView(imageMap.get(path));
     }
 
 }

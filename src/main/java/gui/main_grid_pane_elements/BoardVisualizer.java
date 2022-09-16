@@ -1,6 +1,7 @@
 package gui.main_grid_pane_elements;
 
 import bowels.GameEngine;
+import bowels.items.Board;
 import bowels.items.Piece;
 
 import bowels.items.Vector2d;
@@ -14,7 +15,7 @@ import static bowels.Constants.CELL_SIZE;
 public class BoardVisualizer extends GridPane {
     private final Field[][] fields;
 
-    public BoardVisualizer(Piece[][] pieces, GameEngine engine){
+    public BoardVisualizer( GameEngine engine){
 
         for(int i=0;i<BOARD_SIZE;i++){
           getRowConstraints().add(new RowConstraints(CELL_SIZE));
@@ -30,21 +31,22 @@ public class BoardVisualizer extends GridPane {
                add(fields[x][y],x,y);
             }
         }
-        renderView(pieces);
         setGridLinesVisible(true);
     }
 
 
-    public void renderView(Piece[][] pieces){
+    public void renderView(Board board){
         for(int x=0;x<BOARD_SIZE;x++){
             for(int y=0;y<BOARD_SIZE;y++){
-                if(pieces[x][y] == null) {
-                    fields[x][y].removeImageView();
-                    fields[x][y].removePlayer();
+                Piece piece = board.getPieceAt(new Vector2d(x,y));
+                if(piece != null) {
+                    fields[x][y].setImageView(piece.getImgPath());
+                    fields[x][y].setOccupyingPiece(piece);
+
                 }
                 else{
-                    fields[x][y].setImageView(pieces[x][y].getImgPath());
-                    fields[x][y].setPlayer(pieces[x][y].getPlayer());
+                    fields[x][y].removeImageView();
+                    fields[x][y].removePiece();
                 }
             }
         }

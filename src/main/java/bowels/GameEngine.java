@@ -1,7 +1,9 @@
 package bowels;
 
 import bowels.items.Board;
+import bowels.items.Piece;
 import bowels.items.Player;
+import bowels.items.Vector2d;
 import gui.*;
 import gui.main_grid_pane_elements.BoardVisualizer;
 import gui.main_grid_pane_elements.Field;
@@ -9,12 +11,13 @@ import gui.main_grid_pane_elements.PerformSequenceButton;
 import gui.main_grid_pane_elements.PlayerInfoLabel;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameEngine extends Thread {
     private final Board board;
     private final Field[][] fields;
-    private final SequenceCreator sequenceCreator;
+    private final SequenceBuilder sequenceBuilder;
     private BoardVisualizer boardVisualizer;
     private PlayerInfoLabel playerInfoLabel;
     private PerformSequenceButton performSequenceButton;
@@ -27,7 +30,7 @@ public class GameEngine extends Thread {
     public GameEngine() {
         this.board = new Board();
         this.fields = new Field[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
-        this.sequenceCreator = new SequenceCreator(fields,board);
+        this.sequenceBuilder = new SequenceBuilder(board, fields);
         currentPlayer = Player.WHITE;
         performSequence = new AtomicBoolean(false);
         terminated = false;
@@ -42,9 +45,9 @@ public class GameEngine extends Thread {
             }
 
 
-            if(sequenceCreator.getSequence().size() < 2){
+            if(sequenceBuilder.getSequence().size() < 2){
                 Platform.runLater(() ->mainGridPane.signalWrongSequence() );
-                sequenceCreator.restartSequence();
+                sequenceBuilder.restart();
                 performSequence.set(false);
 
             }
@@ -53,10 +56,22 @@ public class GameEngine extends Thread {
                 Player tmp = currentPlayer;
                 currentPlayer = null;
                 Platform.runLater(() ->performSequenceButton.setDisable(true));
-                for(int i=0;i<sequenceCreator.getSequence().size()-1;i++){
-
-                    board.performMove(sequenceCreator.getSequence().get(i),sequenceCreator.getSequence().get(i+1));
-                    Platform.runLater(() ->boardVisualizer.renderView(board.getPieces()) );
+//                for(int i=0;i<sequenceCreator.getSequence().size()-1;i++){
+//
+//                    board.performMove(sequenceCreator.getSequence().get(i),sequenceCreator.getSequence().get(i+1));
+//                    Platform.runLater(() ->boardVisualizer.renderView(board.getPieces()) );
+//                    try {
+//                        sleep(300);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+                ArrayList<Vector2d> sequence =  sequenceBuilder.getSequence();
+                Piece usedPiece = board.getPieceAt(sequence.get(0));
+                for(int i=1;i<sequence.size();i++){
+                    usedPiece.move(sequence.get(i));
+                    Platform.runLater(() ->boardVisualizer.renderView(board) );
                     try {
                         sleep(300);
                     } catch (InterruptedException e) {
@@ -64,12 +79,13 @@ public class GameEngine extends Thread {
                     }
 
                 }
+
                 currentPlayer = tmp;
                 Platform.runLater(() ->performSequenceButton.setDisable(false));
 
-                sequenceCreator.restartSequence();
+                sequenceBuilder.restart();
                 performSequence.set(false);
-                if(board.won(currentPlayer)) {
+                if(board.finalSetting(currentPlayer)) {
                     break;
                 }
                 changePlayer();
@@ -97,8 +113,8 @@ public class GameEngine extends Thread {
         return fields;
     }
 
-    public SequenceCreator getSequenceCreator() {
-        return sequenceCreator;
+    public SequenceBuilder getSequenceCreator() {
+        return sequenceBuilder;
     }
 
     public Player getCurrentPlayer() {

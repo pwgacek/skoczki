@@ -6,50 +6,74 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-    private final Piece[][] pieces;
-    private final ArrayList<Vector2d> jumps;
-    private final ArrayList<Vector2d> moves;
+    private final ArrayList<Piece> pieces;
+    private final ArrayList<Vector2d> whiteInitialPositions;
+    private final ArrayList<Vector2d> blackInitialPositions;
+
 
     public Board(){
-        pieces = new Piece[Constants.BOARD_SIZE][Constants.BOARD_SIZE];
-        jumps = new ArrayList<>(Arrays.asList(new Vector2d(2,0),new Vector2d(-2,0),new Vector2d(0,2),new Vector2d(0,-2),new Vector2d(2,2),new Vector2d(2,-2),new Vector2d(-2,2),new Vector2d(-2,-2)));
-        moves = new ArrayList<>(Arrays.asList(new Vector2d(0,1),new Vector2d(0,-1),new Vector2d(1,0),new Vector2d(-1,0)));
+        whiteInitialPositions = new ArrayList<>(Constants.NO_PIECES/2);
+        blackInitialPositions = new ArrayList<>(Constants.NO_PIECES/2);
+        pieces = new ArrayList<>(Constants.NO_PIECES);
+
+        generateInitialPositions();
         fillBoard();
     }
 
-    private void fillBoard(){
-        for(int i=0;i<Constants.BOARD_SIZE;i++){
-            pieces[i][0] = new Piece(Player.WHITE);
-            pieces[i][1] = new Piece(Player.WHITE);
 
-            pieces[i][Constants.BOARD_SIZE-1] = new Piece(Player.BLACK);
-            pieces[i][Constants.BOARD_SIZE-2] = new Piece(Player.BLACK);
+    private void fillBoard(){
+        for(Vector2d position:whiteInitialPositions){
+            pieces.add(new Piece(Player.WHITE,position.copy()));
+        }
+        for(Vector2d position:blackInitialPositions){
+            pieces.add(new Piece(Player.BLACK,position.copy()));
         }
 
     }
 
-    public Piece[][] getPieces() {
-        return pieces;
+    private void generateInitialPositions(){
+        for(int x=0;x<Constants.BOARD_SIZE;x++) {
+            whiteInitialPositions.add(new Vector2d(x,0));
+            whiteInitialPositions.add(new Vector2d(x,1));
+            blackInitialPositions.add(new Vector2d(x,Constants.BOARD_SIZE-2));
+            blackInitialPositions.add(new Vector2d(x,Constants.BOARD_SIZE-1));
+
+        }
     }
 
+
+    public ArrayList<Piece> getPieces() {
+        return pieces;
+    }
+    public Piece getPieceAt(Vector2d position){
+        for(Piece piece: pieces){
+            if(piece.getPosition().equals(position)) return piece;
+        }
+        return null;
+    }
+    public boolean isOccupied(Vector2d position)
+    {
+        return getPieceAt(position) != null;
+    }
     public boolean canJump(Vector2d start,Vector2d end){
-        return jumps.contains(end.subtract(start)) && pieces[end.x][end.y] == null && pieces[start.x + (end.subtract(start).x) / 2][start.y + (end.subtract(start).y) / 2] != null;
+        return Piece.jumps.contains(end.subtract(start)) && !isOccupied(end) && isOccupied(start.add(end).divideByTwo());
     }
 
     public boolean canMove(Vector2d start,Vector2d end){
-        return pieces[end.x][end.y] == null && moves.contains(end.subtract(start));
+        return Piece.moves.contains(end.subtract(start)) && !isOccupied(end);
     }
 
-    public boolean won(Player player){
+
+    public boolean finalSetting(Player player){
         if (player == Player.BLACK) {
-            for(int i=0;i<Constants.BOARD_SIZE;i++){
-                if(pieces[i][0] == null || pieces[i][1] == null || pieces[i][0].getPlayer() == Player.WHITE || pieces[i][1].getPlayer() == Player.WHITE)
+            for(Vector2d position : whiteInitialPositions){
+                if(!isOccupied(position) || getPieceAt(position).getPlayer() == Player.WHITE)
                     return false;
             }
         }
         else{
-            for(int i=0;i<Constants.BOARD_SIZE;i++){
-                if(pieces[i][Constants.BOARD_SIZE-1] == null || pieces[i][Constants.BOARD_SIZE-2] == null || pieces[i][Constants.BOARD_SIZE-1].getPlayer() == Player.BLACK || pieces[i][Constants.BOARD_SIZE-2].getPlayer() == Player.BLACK)
+            for(Vector2d position : blackInitialPositions){
+                if(!isOccupied(position) || getPieceAt(position).getPlayer() == Player.BLACK)
                     return false;
             }
         }
@@ -58,10 +82,6 @@ public class Board {
     }
 
 
-    public void performMove(Vector2d start,Vector2d end){
-        pieces[end.x][end.y] = pieces[start.x][start.y];
-        pieces[start.x][start.y] = null;
-    }
 
 
 
