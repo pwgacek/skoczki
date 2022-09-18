@@ -8,9 +8,9 @@
 ## Cel:
 Celem gry jest przestawienie wszystkich swoich pionków na pozycje zajmowane na początku przez przeciwnika, czyli przeciwległe, skrajne dwie linie pól. Gracz, który pierwszy tego dokona − wygrywa. Nie ma możliwości gry remisowej.
 ## Mechanika:
-- przesunięciu swojego pionka na dowolne sąsiednie pole wolne poziomo lub pionowo (do przodu, do tyłu lub na boki),
-- przeskoczeniu przez pionek własny lub przeciwnika z pola bezpośrednio sąsiadującego z przeskakiwanym pionem na pole bezpośrednio za nim,
-- przeskoczeniu kilku pionów swoich lub przeciwnika z pola bezpośrednio sąsiadującego z przeskakiwanym pionem na pole bezpośrednio za nim,
-- wykonaniu całej serii skoków jednym pionkiem zgodnie z dwiema poprzednimi zasadami – zmiana kierunku kolejnych skoków jest możliwa.
+Ruch polega na:
+- przesunięciu swojego pionka na dowolne sąsiednie pole wolne poziomo lub pionowo,
+- przeskoczeniu przez pionek własny lub przeciwnika z pola bezpośrednio sąsiadującego z przeskakiwanym pionkiem na pole bezpośrednio za nim(można przeskoczyć 1 pole),
+- wykonaniu całej serii skoków,
 ## Sterowanie:
 By wykonać ruch pionkiem należy zaznaczyć jego trasę przy pomocy lewego przycisku myszy, następnie nacisnąć przycisk GO! na ekranie
