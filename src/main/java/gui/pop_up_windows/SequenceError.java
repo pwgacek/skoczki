@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class SequenceError {
     private final Stage dialogStage;
-    public SequenceError(){
+    public SequenceError() {
         dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.setResizable(false);
@@ -26,7 +26,6 @@ public class SequenceError {
         okBtn.setOnMouseClicked((event -> dialogStage.close()));
 
     }
-
 
 
 }

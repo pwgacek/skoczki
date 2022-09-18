@@ -1,7 +1,7 @@
 package gui.pop_up_windows;
 
-import bowels.items.Player;
-import gui.MainGridPane;
+import logic.items.Player;
+import gui.grid_pane.MainGridPane;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,16 +15,17 @@ import javafx.stage.Stage;
 
 public class EndGameOptions {
     private final Stage dialogStage;
-    public EndGameOptions(Player player, MainGridPane mainGridPane){
+
+    public EndGameOptions(Player player, MainGridPane mainGridPane) {
         dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.setResizable(false);
         Button restartBtn = new Button("Once again!");
         Button exitBtn = new Button("Exit");
         restartBtn.setMinWidth(50);
-        HBox hbox = new HBox(restartBtn,exitBtn);
+        HBox hbox = new HBox(restartBtn, exitBtn);
         hbox.setSpacing(10);
-        VBox vbox = new VBox(new Text(player.toString()+ " won!"), hbox);
+        VBox vbox = new VBox(new Text(player.toString() + " won!"), hbox);
         vbox.setPadding(new Insets(10));
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);

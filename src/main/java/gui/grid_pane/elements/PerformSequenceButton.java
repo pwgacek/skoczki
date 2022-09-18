@@ -1,10 +1,10 @@
-package gui.main_grid_pane_elements;
+package gui.grid_pane.elements;
 
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
 
 public class PerformSequenceButton extends Button {
-    public PerformSequenceButton(){
+    public PerformSequenceButton() {
         setText("GO!");
         setMinWidth(100);
         setMinHeight(50);

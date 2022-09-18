@@ -12,16 +12,16 @@ public class ImageViewSelector {
     private final Map<String, Image> imageMap;
     private static ImageViewSelector instance;
 
-    public static ImageViewSelector getInstance(){
-        if(instance == null){
+    public static ImageViewSelector getInstance() {
+        if (instance == null) {
             instance = new ImageViewSelector();
         }
         return instance;
     }
 
-    private ImageViewSelector(){
+    private ImageViewSelector() {
         imageMap = new HashMap<>();
-        String[] paths = new String[]{"src/main/resources/white.png","src/main/resources/black.png"};
+        String[] paths = new String[]{"src/main/resources/white.png", "src/main/resources/black.png", "src/main/resources/bg.png"};
 
         for (String path : paths) {
             try {
@@ -34,7 +34,7 @@ public class ImageViewSelector {
 
     }
 
-    public ImageView getImageView(String path){
+    public ImageView getImageView(String path) {
         return new ImageView(imageMap.get(path));
     }
 

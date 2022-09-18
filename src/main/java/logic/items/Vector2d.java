@@ -1,4 +1,4 @@
-package bowels.items;
+package logic.items;
 
 import java.util.Objects;
 
@@ -11,15 +11,6 @@ public class Vector2d {
         this.x = x;
         this.y = y;
     }
-    public Vector2d(int[] pos){
-        this.x = pos[0];
-        this.y = pos[1];
-    }
-    public Vector2d copy(){
-        return new Vector2d(x,y);
-    }
-
-
 
     public Vector2d subtract(Vector2d other){
         return new Vector2d(this.x - other.x, this.y - other.y);

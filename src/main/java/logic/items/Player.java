@@ -1,6 +1,4 @@
-package bowels.items;
-
-import java.util.ArrayList;
+package logic.items;
 
 public enum Player {
 

@@ -1,4 +1,4 @@
-package bowels;
+package logic;
 
 public class Constants {
     public static final double CELL_SIZE = 50;
