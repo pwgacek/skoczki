@@ -1,5 +1,7 @@
 # Skoczki - gra
  Drugi projekt z Programowania Obiektowego, wykonany w Javie przy użyciu biblioteki JavaFX
+ 
+ 
  ![screen](https://user-images.githubusercontent.com/80721230/190898522-6c9b6c18-b23b-40e1-ac40-82b7c53200ea.png)
 
  
